@@ -10,4 +10,4 @@
 
 ### 版权声明
 
-版权说明：该项目MIT授权
+版权说明：该项目[MIT](https://github.com/WindSnowLi/vue-admin-blog/blob/master/LICENSE)授权
