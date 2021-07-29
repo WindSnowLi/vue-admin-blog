@@ -1,0 +1,66 @@
+<template>
+  <div class="app-container">
+    <el-form ref="form" :label-position="labelPosition" :model="form" label-width="80px" center="true">
+      <el-form-item label="标签标题">
+        <el-input v-model="form.main_title" placeholder="浏览器标签页主标题" />
+      </el-form-item>
+      <el-form-item label="顶栏标题">
+        <el-input v-model="form.topbar_title" placeholder="页面顶部栏标题" />
+      </el-form-item>
+      <el-form-item label="页脚HTML">
+        <el-input v-model="form.footer" type="textarea" placeholder="页脚html代码" />
+      </el-form-item>
+      <el-form-item label="轮播背景">
+        <el-input v-model="form.background_list" type="textarea" placeholder="一行一张url链接" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" round @click="onSubmit">保存</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</template>
+<script>
+import { getUiConfig, setUiConfig } from '@/api/sys'
+import { getToken } from '@/utils/auth'
+import { mapGetters } from 'vuex'
+
+export default {
+  data() {
+    return {
+      labelPosition: 'top',
+      form: {
+        main_title: '',
+        topbar_title: '',
+        footer: '',
+        background_list: ''
+      }
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'id'
+    ])
+  },
+  created: function() {
+    const that = this
+    getUiConfig(this.id).then(response => {
+      that.form = response.data
+    })
+  },
+  methods: {
+    onSubmit() {
+      this.setUiConfig()
+    },
+    setUiConfig() {
+      setUiConfig(getToken(), this.form).then(response => {
+        this.$notify({
+          title: '成功',
+          message: 'UI设置成功',
+          type: 'success',
+          duration: 2000
+        })
+      })
+    }
+  }
+}
+</script>
