@@ -22,7 +22,7 @@ export default {
     }
   },
   watch: {
-    md(newValue, preValue) {
+    text(newValue, preValue) {
       if (newValue !== preValue && newValue !== this.value) {
         this.$emit('input', newValue)
       }
