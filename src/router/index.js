@@ -52,7 +52,7 @@ export const constantRoutes = [
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: '仪表盘', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   }
@@ -117,6 +117,12 @@ export const asyncRoutes = [
         component: () => import('@/views/setting/storage'),
         name: 'SettingStorage',
         meta: { title: '存储设置', icon: 'el-icon-files' }
+      },
+      {
+        path: 'sys',
+        component: () => import('@/views/setting/sys'),
+        name: 'SettingSys',
+        meta: { title: '系统设置', icon: 'el-icon-s-platform' }
       }
     ]
   },

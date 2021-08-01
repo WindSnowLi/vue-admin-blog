@@ -9,7 +9,10 @@ export function setUiConfig(token, data) {
   return request({
     url: '/sys/setUiConfig',
     method: 'post',
-    data: { token: token, sysConfig: data }
+    data: {
+      token: token,
+      sysConfig: data
+    }
   })
 }
 
@@ -21,7 +24,9 @@ export function getUiConfig(id) {
   return request({
     url: '/sys/getConfigByUserId',
     method: 'post',
-    data: { id }
+    data: {
+      id
+    }
   })
 }
 
@@ -33,7 +38,9 @@ export function getStorageConfig(token) {
   return request({
     url: '/sys/getStorageConfig',
     method: 'post',
-    data: { token }
+    data: {
+      token
+    }
   })
 }
 
@@ -46,6 +53,39 @@ export function setStorageConfig(token, storage) {
   return request({
     url: '/sys/setStorageConfig',
     method: 'post',
-    data: { token, storage }
+    data: {
+      token,
+      storage
+    }
+  })
+}
+
+/**
+ * 获取系统存储配置，包含表单描述信息
+ * @param {String} token 身份验证信息
+ */
+export function getSysConfig(token) {
+  return request({
+    url: '/sys/getSysConfig',
+    method: 'post',
+    data: {
+      token
+    }
+  })
+}
+
+/**
+ * 上传系统配置
+ * @param {String} token 身份验证信息
+ * @param {Object} config 系统设置信息
+ */
+export function setSysConfig(token, config) {
+  return request({
+    url: '/sys/setSysConfig',
+    method: 'post',
+    data: {
+      token,
+      config
+    }
   })
 }

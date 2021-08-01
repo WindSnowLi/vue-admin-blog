@@ -26,7 +26,7 @@ module.exports = [
       }
     }
   },
-  // 获取系统存储配置
+  // 获取系统存储配置，包含表单描述信息
   {
     url: '/sys/getStorageConfig',
     type: 'post',
@@ -131,4 +131,53 @@ module.exports = [
       }
     }
   },
+  // 获取系统配置信息，包含表单描述信息
+  {
+    url: '/sys/getSysConfig',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: {
+          template: {
+            title: '系统配置',
+            type: 'object',
+            properties: {
+              filing_icp: {
+                type: 'string',
+                title: 'ICP备案',
+                description: '完整ICP备案备案号'
+              },
+              filing_security: {
+                type: 'string',
+                title: '公网备案',
+                description: '完整公网备案备案号'
+              },
+              admin_url: {
+                type: 'string',
+                title: '后台url根链接',
+                description: '后台url根链接'
+              }
+            }
+          },
+          sys: {
+            filing_icp: 'ICP备案号',
+            filing_security: '公网备案',
+            admin_url: 'http://test.com'
+          }
+        }
+      }
+    }
+  },
+  // 设置系统配置
+  {
+    url: '/sys/setSysConfig',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'OK'
+      }
+    }
+  }
 ]
