@@ -1,5 +1,5 @@
 <template>
-  <mavon-editor ref="md" v-model="text" class="mavon-editor" @imgAdd="$imgAdd" @imgDel="$imgDel" />
+  <mavon-editor ref="md" v-model="text" class="mavon-editor" @imgAdd="$imgAdd" @imgDel="$imgDel" @save="save" />
 </template>
 
 <script>
@@ -13,6 +13,10 @@ export default {
     value: {
       type: String,
       default: ''
+    },
+    save: {
+      type: Function,
+      required: true
     }
   },
   data() {

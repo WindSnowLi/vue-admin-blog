@@ -17,6 +17,54 @@
                 标题
               </MDinput>
             </el-form-item>
+
+            <div class="postInfo-container">
+              <el-row>
+                <el-col :span="8">
+                  <el-form-item style="margin-bottom: 40px;" label-width="70px" label="封面:">
+                    <el-upload
+                      class="image-uploader"
+                      :action="handleImageUrl()"
+                      :data="uploadImage.params"
+                      :show-file-list="false"
+                      :on-success="handleImageSuccess"
+                      :before-upload="beforeImageUpload"
+                    >
+                      <img v-if="postForm.coverPic" :src="postForm.coverPic" class="image" alt="封面">
+                      <i v-else class="el-icon-plus image-uploader-icon" />
+                    </el-upload>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                  <el-form-item style="margin-bottom: 40px;" label-width="120px" label="标签:">
+                    <el-select
+                      v-model="postForm.labels"
+                      multiple
+                      filterable
+                      allow-create
+                      default-first-option
+                      placeholder="请选择文章标签"
+                    >
+                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item style="margin-bottom: 40px;" label-width="120px" label="分类:">
+                    <el-select
+                      v-model="postForm.articleType"
+                      clearable
+                      filterable
+                      allow-create
+                      default-first-option
+                      placeholder="请选择文章分类"
+                    >
+                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
           </el-col>
         </el-row>
         <el-form-item style="margin-bottom: 40px;" label-width="70px" label="摘要:">
@@ -26,54 +74,12 @@
             type="textarea"
             class="article-textarea"
             autosize
-            placeholder=""
+            placeholder="文章介绍"
           />
           <span v-show="contentShortLength" class="word-counter">{{ contentShortLength }}words</span>
         </el-form-item>
-        <el-row :gutter="20">
-          <el-col :span="4">
-            <el-form-item style="margin-bottom: 40px;" label-width="70px" label="封面:">
-              <el-upload
-                class="image-uploader"
-                :action="handleImageUrl()"
-                :show-file-list="false"
-                :on-success="handleImageSuccess"
-                :before-upload="beforeImageUpload"
-              >
-                <img v-if="postForm.coverPic" :src="postForm.coverPic" class="image" alt="封面">
-                <i v-else class="el-icon-plus image-uploader-icon" />
-              </el-upload>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item style="margin-bottom: 40px;" label-width="140px" label="标签:">
-              <el-select
-                v-model="postForm.labels"
-                multiple
-                filterable
-                allow-create
-                default-first-option
-                placeholder="请选择文章标签"
-              >
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-            <el-form-item style="margin-bottom: 40px;" label-width="140px" label="分类:">
-              <el-select
-                v-model="postForm.articleType"
-                clearable
-                filterable
-                allow-create
-                default-first-option
-                placeholder="请选择文章分类"
-              >
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
         <el-form-item prop="content" style="margin-bottom: 30px;">
-          <markdown-editor ref="markdownEditor" v-model="postForm.content" height="600px" />
+          <markdown-editor ref="markdownEditor" v-model="postForm.content" :save="handleSave" height="600px" />
         </el-form-item>
       </div>
     </el-form>
@@ -204,6 +210,9 @@ export default {
     draftForm() {
       this.editArticle('draft')
     },
+    handleSave() {
+      this.draftForm()
+    },
     editArticle(status) {
       if (this.postForm.content.length === 0 ||
         this.postForm.title.length === 0 ||
@@ -268,7 +277,7 @@ export default {
     },
     handleImageUrl() {
       const _self = this
-      // 以防多次获取上传urls
+      // 以防多次获取上传url
       if (!this.uploadImage.ini) {
         this.uploadImage.urlTime = new Date()
         getUploadArticleCoverImageUrl(getToken()).then(response => {

@@ -1,18 +1,7 @@
 module.exports = [
-  // UI设置
-  {
-    url: '/sys/setUiConfig',
-    type: 'post',
-    response: _ => {
-      return {
-        code: 20000,
-        data: 'OK'
-      }
-    }
-  },
   // 获取UI设置
   {
-    url: '/sys/getConfigByUserId',
+    url: '/user/getUiConfig',
     type: 'post',
     response: _ => {
       return {
@@ -23,6 +12,17 @@ module.exports = [
           footer: '啊呜',
           background_list: '啊~'
         }
+      }
+    }
+  },
+  // UI设置
+  {
+    url: '/sys/setUiConfig',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'OK'
       }
     }
   },

@@ -84,3 +84,15 @@ export function setAvatar(token, avatar) {
     data: { token: token, avatar: avatar }
   })
 }
+
+/**
+ * 获取用户关于信息
+ * @param {Object} token 验证信息
+ */
+export function getAboutByUserId(token) {
+  return request({
+    url: '/user/getAboutByUserId',
+    method: 'post',
+    data: { token: token }
+  })
+}

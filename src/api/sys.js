@@ -17,20 +17,6 @@ export function setUiConfig(token, data) {
 }
 
 /**
- * 获取UI配置
- * @param {Number} id 用户ID
- */
-export function getUiConfig(id) {
-  return request({
-    url: '/sys/getConfigByUserId',
-    method: 'post',
-    data: {
-      id
-    }
-  })
-}
-
-/**
  * 获取系统存储配置
  * @param {String} token 身份验证信息
  */
@@ -87,5 +73,17 @@ export function setSysConfig(token, config) {
       token,
       config
     }
+  })
+}
+
+/**
+ * 获取用户Ui配置信息
+ * @param {Object} token 验证信息
+ */
+export function getUiConfig(token) {
+  return request({
+    url: '/sys/getUiConfig',
+    method: 'post',
+    data: { token: token }
   })
 }
