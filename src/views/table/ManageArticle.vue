@@ -106,6 +106,7 @@ import Pagination from '@/components/Pagination' // secondary package based on e
 import {
   getToken
 } from '@/utils/auth'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ComplexTable',
@@ -125,7 +126,8 @@ export default {
         page: 1,
         limit: 20,
         sort: '-id',
-        status: 'all'
+        status: 'all',
+        userId: 0
       },
       sortOptions: [{
         label: 'ID升序',
@@ -136,12 +138,18 @@ export default {
       }]
     }
   },
+  computed: {
+    ...mapGetters([
+      'id'
+    ])
+  },
   created() {
     this.getList()
   },
   methods: {
     getList() {
       this.listLoading = true
+      this.listQuery.userId = this.id
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total

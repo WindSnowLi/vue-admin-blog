@@ -60,6 +60,7 @@
 <script>
 import { fetchList } from '@/api/article'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ArticleList',
@@ -83,9 +84,15 @@ export default {
         page: 1,
         limit: 20,
         sort: '-id',
-        status: 'all'
+        status: 'all',
+        userId: 0
       }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'id'
+    ])
   },
   created() {
     this.getList()
@@ -93,6 +100,7 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
+      this.listQuery.userId = this.id
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total

@@ -58,13 +58,6 @@ export function getArticleCreateLog(token) {
     }
   })
 }
-// 文章分类雷达图分析
-// export function getSuperiorRadar() {
-//   return request({
-//     url: '/article/superiorRadar',
-//     method: 'post'
-//   })
-// }
 // 文章可选标签
 export function getLabels() {
   return request({
