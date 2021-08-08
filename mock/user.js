@@ -109,5 +109,27 @@ module.exports = [
         data: 'OK'
       }
     }
+  },
+  // 获取用户关于信息
+  {
+    url: '/user/getAboutByUserId',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'I LOVE YOU WITH ME!'
+      }
+    }
+  },
+  // 获取用户关于信息
+  {
+    url: '/user/setAboutByUserToken',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'OK'
+      }
+    }
   }
 ]

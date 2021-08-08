@@ -36,7 +36,6 @@ export default {
   },
   methods: {
     handlerSubmit() {
-      console.log(this.formData)
       setSysConfig(getToken(), this.formData).then(_ => {
         this.$message({
           message: '保存成功',

@@ -76,23 +76,37 @@ export function getWork(token) {
 /**
  * 设置头像
  * @param {Object} token 验证信息
+ * @param {String} avatar 头像链接
  */
 export function setAvatar(token, avatar) {
   return request({
     url: '/user/setAvatar',
     method: 'post',
-    data: { token: token, avatar: avatar }
+    data: { token, avatar }
   })
 }
 
 /**
  * 获取用户关于信息
- * @param {Object} token 验证信息
+ * @param {int} id 用户ID
  */
-export function getAboutByUserId(token) {
+export function getAboutByUserId(id) {
   return request({
     url: '/user/getAboutByUserId',
     method: 'post',
-    data: { token: token }
+    data: { id }
+  })
+}
+
+/**
+ * 获取用户关于信息
+ * @param token 验证信息
+ * @param content 关于内容
+ */
+export function setAboutByUserToken(token, content) {
+  return request({
+    url: '/user/setAboutByUserToken',
+    method: 'post',
+    data: { token, content }
   })
 }

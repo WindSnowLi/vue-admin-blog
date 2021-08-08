@@ -1,7 +1,7 @@
 module.exports = [
   // 获取UI设置
   {
-    url: '/user/getUiConfig',
+    url: '/sys/getUiConfig',
     type: 'post',
     response: _ => {
       return {

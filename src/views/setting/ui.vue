@@ -42,9 +42,8 @@ export default {
     ])
   },
   created: function() {
-    const that = this
-    getUiConfig(getToken()).then(response => {
-      that.form = response.data
+    getUiConfig(this.id).then(response => {
+      this.form = response.data
     })
   },
   methods: {
@@ -58,7 +57,7 @@ export default {
         footer: this.form.footer,
         background_list: this.form.background_list
       }
-      setUiConfig(getToken(), ui).then(response => {
+      setUiConfig(getToken(), ui).then(_ => {
         this.$notify({
           title: '成功',
           message: 'UI设置成功',

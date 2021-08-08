@@ -100,7 +100,7 @@ export const asyncRoutes = [
     path: '/setting',
     component: Layout,
     redirect: '/setting/ui',
-    name: '设置',
+    name: 'setting',
     meta: {
       title: '设置',
       icon: 'el-icon-setting'
@@ -130,12 +130,23 @@ export const asyncRoutes = [
     path: '/profile',
     component: Layout,
     redirect: '/profile/index',
+    name: 'profile',
+    meta: {
+      title: '个人中心',
+      icon: 'user'
+    },
     children: [
       {
         path: 'index',
-        component: () => import('@/views/profile/index'),
+        component: () => import('@/views/profile/base'),
         name: 'Profile',
-        meta: { title: '个人中心', icon: 'user', noCache: true }
+        meta: { title: '基础信息', icon: 'people', noCache: true }
+      },
+      {
+        path: 'about',
+        component: () => import('@/views/profile/about'),
+        name: 'Profile',
+        meta: { title: '关于信息', icon: 'eye-open', noCache: true }
       }
     ]
   },

@@ -78,12 +78,12 @@ export function setSysConfig(token, config) {
 
 /**
  * 获取用户Ui配置信息
- * @param {Object} token 验证信息
+ * @param {int} id 用户ID
  */
-export function getUiConfig(token) {
+export function getUiConfig(id) {
   return request({
     url: '/sys/getUiConfig',
     method: 'post',
-    data: { token: token }
+    data: { id }
   })
 }
