@@ -109,7 +109,7 @@ import {
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'ComplexTable',
+  name: 'ManageArticle',
   components: {
     Pagination
   },

@@ -150,6 +150,24 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/links',
+    component: Layout,
+    redirect: '/links/friendLinks',
+    name: 'links',
+    meta: {
+      title: '链接管理',
+      icon: 'el-icon-s-promotion'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/links/FriendLink'),
+        name: 'FriendLink',
+        meta: { title: '友链管理', icon: 'el-icon-lollipop', noCache: true }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

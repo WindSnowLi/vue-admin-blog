@@ -7,13 +7,15 @@ const article = require('./article')
 const search = require('./remote-search')
 const sysConfig = require('./sys.js')
 const fileConfig = require('./file.js')
+const link = require('./link.js')
 const mocks = [
   ...user,
   ...role,
   ...article,
   ...search,
   ...sysConfig,
-  ...fileConfig
+  ...fileConfig,
+  ...link
 ]
 
 // for front mock
