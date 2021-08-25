@@ -168,6 +168,24 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/comment',
+    component: Layout,
+    redirect: '/comment/verify',
+    name: 'comment',
+    meta: {
+      title: '评论管理',
+      icon: 'el-icon-s-comment'
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/table/ManageComment'),
+        name: 'ManageComment',
+        meta: { title: '评论管理', icon: 'el-icon-s-comment', noCache: true }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

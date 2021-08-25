@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             访问者
           </div>
-          <count-to :start-val="0" :end-val="groupData.visits.visitsAllCount" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="groupData.visits.total" :duration="2600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -22,7 +22,48 @@
           <div class="card-panel-text">
             文章
           </div>
-          <count-to :start-val="0" :end-val="groupData.articles.articleAllCount" :duration="3000" class="card-panel-num" />
+          <count-to
+            :start-val="0"
+            :end-val="groupData.articles.total"
+            :duration="3000"
+            class="card-panel-num"
+          />
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('comment')">
+        <div class="card-panel-icon-wrapper icon-message">
+          <svg-icon icon-class="message" class-name="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            总评论
+          </div>
+          <count-to
+            :start-val="0"
+            :end-val="groupData.comments.total"
+            :duration="3000"
+            class="card-panel-num"
+          />
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('verify')">
+        <div class="card-panel-icon-wrapper icon-message">
+          <svg-icon icon-class="edit" class-name="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            待审核评论
+          </div>
+          <count-to
+            :start-val="0"
+            :end-val="groupData.verifyComments.total"
+            :duration="3000"
+            class="card-panel-num"
+          />
         </div>
       </div>
     </el-col>
@@ -140,7 +181,7 @@ export default {
   }
 }
 
-@media (max-width:550px) {
+@media (max-width: 550px) {
   .card-panel-description {
     display: none;
   }

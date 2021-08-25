@@ -4,18 +4,20 @@ const { param2Obj } = require('./utils')
 const user = require('./user')
 const role = require('./role')
 const article = require('./article')
-const search = require('./remote-search')
-const sysConfig = require('./sys.js')
-const fileConfig = require('./file.js')
-const link = require('./link.js')
+const sysConfig = require('./sys')
+const fileConfig = require('./file')
+const link = require('./link')
+const comment = require('./comment')
+const other = require('./other')
 const mocks = [
   ...user,
   ...role,
   ...article,
-  ...search,
   ...sysConfig,
   ...fileConfig,
-  ...link
+  ...link,
+  ...comment,
+  ...other
 ]
 
 // for front mock

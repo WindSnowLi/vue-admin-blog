@@ -7,14 +7,28 @@
     <el-row :gutter="32">
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <pie-chart :cake-chart-data="cakeChartData" />
+          <label>访问量分析</label>
+          <pie-chart :cake-chart-data="chartData.visits" />
         </div>
       </el-col>
-      <!--      <el-col :xs="24" :sm="24" :lg="8">
+      <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
-          <raddar-chart :superior-radar="superiorRadar" />
+          <label>各类文章占比</label>
+          <pie-chart :cake-chart-data="chartData.article" />
         </div>
-      </el-col> -->
+      </el-col>
+      <el-col :xs="24" :sm="24" :lg="8">
+        <div class="chart-wrapper">
+          <label>评论组成</label>
+          <bar-chart :series-data="chartData.commentLineSeries" />
+        </div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="8">
+      <el-col :xs="36" :sm="36" :md="36" :lg="18" :xl="18" style="padding-right:8px;margin-bottom:30px;">
+        <label>最新待审核评论</label>
+        <transaction-table />
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -23,40 +37,68 @@
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import PieChart from './components/PieChart'
-// import RaddarChart from './components/RaddarChart'
+import BarChart from './components/BarChart'
+import TransactionTable from './components/TransactionTable'
 import {
-  getVisitLog,
-  getAllVisitCountByType,
-  getArticleCreateLog,
+  getChart,
   getPanel
-  // getSuperiorRadar
-} from '@/api/article'
-
+} from '@/api/other'
 import { getToken } from '@/utils/auth'
+
 const data = {
   groupData: {
     visits: {
-      visitsAllCount: 0,
+      total: 0,
       y: [0, 0, 0, 0, 0, 0, 0],
       x: ['6', '5', '4', '3', '2', '1', '0'],
       title: '浏览量'
     },
     articles: {
-      articleAllCount: 0,
+      total: 0,
       y: [0, 0, 0, 0, 0, 0, 0],
       x: ['6', '5', '4', '3', '2', '1', '0'],
       title: '创作篇'
+    },
+    comments: {
+      total: 0,
+      y: [0, 0, 0, 0, 0, 0, 0],
+      x: ['1', '5', '15', '35', '42', '61', '70'],
+      title: '总评论趋势'
+    },
+    verifyComments: {
+      total: 0,
+      y: [0, 0, 0, 0, 0, 0, 0],
+      x: ['6', '5', '4', '3', '2', '1', '0'],
+      title: '待审核评论'
     }
   },
-  cakeChartData: {
-    visitData: [],
-    dataName: []
+  chartData: {
+    article: {
+      data: [],
+      dataName: []
+    },
+    visits: {
+      data: [],
+      dataName: []
+    },
+    commentLineSeries: {
+      category: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      data: [
+        {
+          name: '待审核',
+          data: [0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          name: '已审核',
+          data: [0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+          name: '已删除',
+          data: [0, 0, 0, 0, 0, 0, 0]
+        }
+      ]
+    }
   }
-  // superiorRadar: {
-  //   indicator: [],
-  //   dataName: [],
-  //   dataValue: []
-  // }
 }
 
 export default {
@@ -64,52 +106,45 @@ export default {
   components: {
     PanelGroup,
     PieChart,
-    LineChart
-    // RaddarChart
+    LineChart,
+    BarChart,
+    TransactionTable
   },
   data() {
     return {
       lineChartData: data.groupData.visits,
-      // 圆饼图数据
-      cakeChartData: data.cakeChartData,
+      // 图数据
+      chartData: data.chartData,
       // 界首数据
       groupData: data.groupData
-      // 分类访问量雷达图
-      // superiorRadar: data.superiorRadar
     }
   },
   created: function() {
-    this.handleSetLineChartData('visit')
     const that = this
     // 界首
-    getPanel(getToken()).then(function(rs) {
-      that.groupData.visits.visitsAllCount = rs.data.visitsAllCount
-      that.groupData.articles.articleAllCount = rs.data.articleAllCount
+    getPanel(getToken()).then(rsp => {
+      that.groupData = rsp.data
+      that.handleSetLineChartData('visit')
     })
-    // 用于访问圆饼图制作
-    getAllVisitCountByType(getToken()).then(function(rs) {
-      that.cakeChartData = rs.data
+    // 图表数据
+    getChart(getToken()).then(rsp => {
+      that.chartData = rsp.data
     })
-    // 各分类访问量雷达图制作
-    // getSuperiorRadar().then(function(rs) {
-    //   that.superiorRadar = rs.data
-    // })
   },
   methods: {
     handleSetLineChartData(type) {
-      const that = this
       if (type === 'visit') {
         // 访问量曲线图
-        getVisitLog(getToken()).then(function(rs) {
-          that.groupData.visits = rs.data
-          that.lineChartData = rs.data
-        })
+        this.lineChartData = this.groupData.visits
       } else if (type === 'article') {
         // 文章创建曲线图
-        getArticleCreateLog(getToken()).then(function(rs) {
-          that.groupData.articles = rs.data
-          that.lineChartData = rs.data
-        })
+        this.lineChartData = this.groupData.articles
+      } else if (type === 'comment') {
+        // 总评论曲线图
+        this.lineChartData = this.groupData.comments
+      } else if (type === 'verify') {
+        // 待审核评论曲线图
+        this.lineChartData = this.groupData.verifyComments
       }
     }
   }
@@ -117,21 +152,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .dashboard-editor-container {
-    padding: 32px;
-    background-color: rgb(240, 242, 245);
-    position: relative;
+.dashboard-editor-container {
+  padding: 32px;
+  background-color: rgb(240, 242, 245);
+  position: relative;
 
-    .chart-wrapper {
-      background: #fff;
-      padding: 16px 16px 0;
-      margin-bottom: 32px;
-    }
+  .chart-wrapper {
+    background: #fff;
+    padding: 16px 16px 0;
+    margin-bottom: 32px;
   }
+}
 
-  @media (max-width:1024px) {
-    .chart-wrapper {
-      padding: 8px;
-    }
+@media (max-width: 1024px) {
+  .chart-wrapper {
+    padding: 8px;
   }
+}
 </style>

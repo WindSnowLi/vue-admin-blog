@@ -102,40 +102,6 @@ module.exports = [
       }
     }
   },
-  // 获取访问总量和趋势
-  {
-    url: '/article/getVisitLog',
-    type: 'post',
-    dataType: 'json',
-    response: _ => {
-      return {
-        code: 20000,
-        message: '请求成功',
-        data: {
-          visitsAllCount: 2580,
-          y: [113, 255, 114, 110, 120, 119, 521],
-          x: ['6', '5', '4', '3', '2', '1', '0'],
-          title: '浏览量'
-        }
-      }
-    }
-  },
-  // 界首
-  {
-    url: '/article/getHomepagePanel',
-    type: 'post',
-    dataType: 'json',
-    response: _ => {
-      return {
-        code: 20000,
-        message: '请求成功',
-        data: {
-          visitsAllCount: 2580,
-          articleAllCount: 6666
-        }
-      }
-    }
-  },
   // 获取所有分类访问量
   {
     url: '/article/getAllVisitCountByType',
@@ -146,7 +112,7 @@ module.exports = [
         code: 20000,
         message: '请求成功',
         data: {
-          visitData: [{
+          data: [{
             value: 320,
             name: 'Industries'
           },
@@ -168,24 +134,6 @@ module.exports = [
           }
           ],
           dataName: ['Industries', 'Technology', 'Forex', 'Gold', 'Forecasts']
-        }
-      }
-    }
-  },
-  // 获取文章创建历史
-  {
-    url: '/article/getArticleCreateLog',
-    type: 'post',
-    dataType: 'json',
-    response: _ => {
-      return {
-        code: 20000,
-        message: '请求成功',
-        data: {
-          articleAllCount: 6666,
-          y: [1, 3, 6, 10, 15, 21, 27],
-          x: ['6', '5', '4', '3', '2', '1', '0'],
-          title: '创作篇'
         }
       }
     }
@@ -236,41 +184,4 @@ module.exports = [
       }
     }
   }
-  // 文章分类雷达图分析
-  // {
-  //   url: '/article/superiorRadar',
-  //   type: 'post',
-  //   dataType: 'json',
-  //   response: _ => {
-  //     return {
-  //       code: 20000,
-  //       message: '请求成功',
-  //       data: {
-  //         indicator: [
-  //           { name: 'Sales', max: 10000 },
-  //           { name: 'Administration', max: 20000 },
-  //           { name: 'Information Technology', max: 20000 },
-  //           { name: 'Customer Support', max: 20000 },
-  //           { name: 'Development', max: 20000 },
-  //           { name: 'Marketing', max: 20000 }
-  //         ],
-  //         dataName: ['Allocated Budget', 'Expected Spending', 'Actual Spending'],
-  //         dataValue: [
-  //           {
-  //             value: [5000, 7000, 12000, 11000, 15000, 14000],
-  //             name: 'Allocated Budget'
-  //           },
-  //           {
-  //             value: [4000, 9000, 15000, 15000, 13000, 11000],
-  //             name: 'Expected Spending'
-  //           },
-  //           {
-  //             value: [5500, 11000, 12000, 15000, 12000, 12000],
-  //             name: 'Actual Spending'
-  //           }
-  //         ]
-  //       }
-  //     }
-  //   }
-  // }
 ]

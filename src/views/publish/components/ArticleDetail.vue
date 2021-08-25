@@ -95,7 +95,7 @@ import { getToken } from '@/utils/auth'
 import { getUploadArticleCoverImageUrl } from '@/api/file'
 
 const defaultForm = {
-  status: 'draft',
+  status: 'DRAFT',
   title: '', // 文章题目
   content: '', // 文章内容
   summary: '', // 文章摘要
@@ -205,10 +205,10 @@ export default {
       })
     },
     submitForm() {
-      this.editArticle('published')
+      this.editArticle('PUBLISHED')
     },
     draftForm() {
-      this.editArticle('draft')
+      this.editArticle('DRAFT')
     },
     handleSave() {
       this.draftForm()
@@ -237,11 +237,11 @@ export default {
       }
       if (this.edit) {
         updateArticle(data).then(_ => {
-          this.$message({
-            message: '保存成功',
+          this.$notify({
+            title: '成功',
+            message: '文章编辑成功',
             type: 'success',
-            showClose: true,
-            duration: 1000
+            duration: 2000
           })
         }).catch(err => {
           console.log(err)
@@ -254,7 +254,7 @@ export default {
             type: 'success',
             duration: 2000
           })
-          this.edit = !this.edit
+          this.edit = true
           this.postForm.id = response.data.aticleId
         }).catch(err => {
           console.log(err)

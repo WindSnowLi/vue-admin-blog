@@ -18,26 +18,6 @@ export function fetchArticle(id) {
     }
   })
 }
-// 获取访问总量和趋势
-export function getVisitLog(token) {
-  return request({
-    url: '/article/getVisitLog',
-    method: 'post',
-    data: {
-      token
-    }
-  })
-}
-// 界首
-export function getPanel(token) {
-  return request({
-    url: '/article/getHomepagePanel',
-    method: 'post',
-    data: {
-      token
-    }
-  })
-}
 // 获取所有分类访问量
 export function getAllVisitCountByType(token) {
   return request({

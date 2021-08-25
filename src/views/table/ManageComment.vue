@@ -25,61 +25,46 @@
         :class-name="getSortClass('id')"
       >
         <template slot-scope="{row}">
-          <span>{{ row.article.id }}</span>
+          <span>{{ row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建日期" width="150px" align="center">
+      <el-table-column label="创建日期" width="140px" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.article.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="更新日期" width="150px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.article.updateTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="标题" min-width="150px">
-        <template slot-scope="{row}">
-          <router-link :to="'/publish/edit/' + row.article.id" class="link-type">
-            <span>{{ row.article.title }}</span>
-          </router-link>
-        </template>
-      </el-table-column>
-      <el-table-column label="作者" width="110px" align="center">
-        <template slot-scope="{row}">
-          <span>{{ row.user.nickname }}</span>
+          <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="阅读量" align="center" width="95">
+      <el-table-column label="评论内容" min-width="150px">
         <template slot-scope="{row}">
-          <span>{{ row.article.visitsCount }}</span>
+          <span>{{ row.content }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="文章状态" class-name="status-col" width="100">
+      <el-table-column label="评论者" width="110px" align="center">
         <template slot-scope="{row}">
-          <el-tag :type="row.article.status">
-            {{ row.article.status }}
-          </el-tag>
+          <span v-if="row.fromUser">{{ row.fromUser.nickname }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="被评论者" width="110px" align="center">
+        <template slot-scope="{row}">
+          <span v-if="row.toUser">{{ row.toUser.nickname }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="被评论页面主题" min-width="100px">
+        <template slot-scope="{row}">
+          <span>{{ row.target.title }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="180" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
-          <el-button type="primary" size="mini" @click="handleEdit(row)">
-            编辑
-          </el-button>
           <el-button
-            v-if="row.article.status!=='PUBLISHED'"
             size="mini"
             type="success"
-            @click="handleModifyStatus(row,'PUBLISHED')"
+            @click="handlePass(row,$index)"
           >
-            发布
+            通过
           </el-button>
-          <el-button v-if="row.article.status!=='DRAFT'" size="mini" @click="handleModifyStatus(row,'DRAFT')">
-            草稿
-          </el-button>
-          <el-button v-if="row.article.status!=='DELETED'" size="mini" type="danger" @click="handleDelete(row,$index)">
+
+          <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
             删除
           </el-button>
         </template>
@@ -96,20 +81,16 @@
 </template>
 
 <script>
-import {
-  fetchList,
-  setStatus,
-  delArticle
-} from '@/api/article'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import {
   getToken
 } from '@/utils/auth'
 import { mapGetters } from 'vuex'
+import { getCommentList, setCommentStatus } from '@/api/comment'
 
 export default {
-  name: 'ManageArticle',
+  name: 'ManageComment',
   components: {
     Pagination
   },
@@ -126,8 +107,7 @@ export default {
         page: 1,
         limit: 20,
         sort: '-id',
-        status: 'ALL',
-        userId: 0
+        status: 'VERIFY'
       },
       sortOptions: [{
         label: 'ID升序',
@@ -150,7 +130,7 @@ export default {
     getList() {
       this.listLoading = true
       this.listQuery.userId = this.id
-      fetchList(this.listQuery).then(response => {
+      getCommentList(getToken(), this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total
 
@@ -164,18 +144,15 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleModifyStatus(row, status) {
-      setStatus(row.article.id, getToken(), status).then(data => {
-        row.article.status = status
-        this.$message({
-          message: '操作成功',
-          type: 'success'
+    handlePass(row, index) {
+      setCommentStatus(getToken(), row.id, 'PASS').then(_ => {
+        this.$notify({
+          title: '通过',
+          message: '审核通过',
+          type: 'success',
+          duration: 2000
         })
-      })
-    },
-    handleEdit(row) {
-      this.$router.push({
-        path: '/publish/edit/' + row.article.id || '/'
+        this.list.splice(index, 1)
       })
     },
     sortChange(data) {
@@ -196,14 +173,14 @@ export default {
       this.handleFilter()
     },
     handleDelete(row, index) {
-      delArticle(row.article.id, getToken()).then(data => {
-        this.list.splice(index, 1)
+      setCommentStatus(getToken(), row.id, 'DELETE').then(_ => {
         this.$notify({
           title: '成功',
           message: '删除成功',
           type: 'success',
           duration: 2000
         })
+        this.list.splice(index, 1)
       })
     },
     getSortClass: function(key) {

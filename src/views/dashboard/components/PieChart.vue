@@ -75,7 +75,7 @@ export default {
           roseType: 'radius',
           radius: [15, 95],
           center: ['50%', '38%'],
-          data: val.visitData,
+          data: val.data,
           animationEasing: 'cubicInOut',
           animationDuration: 2600
         }]

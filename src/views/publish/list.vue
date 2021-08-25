@@ -68,9 +68,9 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
+        PUBLISHED: 'success',
+        DRAFT: 'info',
+        DELETED: 'danger'
       }
       return statusMap[status]
     }
@@ -84,7 +84,7 @@ export default {
         page: 1,
         limit: 20,
         sort: '-id',
-        status: 'all',
+        status: 'ALL',
         userId: 0
       }
     }
