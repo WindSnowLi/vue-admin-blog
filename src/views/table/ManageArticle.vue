@@ -103,9 +103,6 @@ import {
 } from '@/api/article'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import {
-  getToken
-} from '@/utils/auth'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -165,7 +162,7 @@ export default {
       this.getList()
     },
     handleModifyStatus(row, status) {
-      setStatus(row.article.id, getToken(), status).then(data => {
+      setStatus(row.article.id, status).then(data => {
         row.article.status = status
         this.$message({
           message: '操作成功',
@@ -196,7 +193,7 @@ export default {
       this.handleFilter()
     },
     handleDelete(row, index) {
-      delArticle(row.article.id, getToken()).then(data => {
+      delArticle(row.article.id).then(data => {
         this.list.splice(index, 1)
         this.$notify({
           title: '成功',

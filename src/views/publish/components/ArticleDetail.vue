@@ -236,7 +236,7 @@ export default {
         data.article.articleType = 'default'
       }
       if (this.edit) {
-        updateArticle(data).then(_ => {
+        updateArticle(data.token, data.article).then(_ => {
           this.$notify({
             title: '成功',
             message: '文章编辑成功',
@@ -247,7 +247,7 @@ export default {
           console.log(err)
         })
       } else {
-        createArticle(data).then(response => {
+        createArticle(data.token, data.article).then(response => {
           this.$notify({
             title: '成功',
             message: '文章上传成功',
