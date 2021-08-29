@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { getToken } from '@/utils/auth'
 import { getStorageConfig, setStorageConfig } from '@/api/sys'
 
 export default {
@@ -31,7 +30,7 @@ export default {
     }
   },
   created() {
-    getStorageConfig(getToken()).then(response => {
+    getStorageConfig().then(response => {
       this.config = response.data
       this.schema = response.data.template
       this.formData = response.data.storage
@@ -40,7 +39,7 @@ export default {
   methods: {
     handlerSubmit() {
       console.log(this.formData)
-      setStorageConfig(getToken(), this.formData).then(_ => {
+      setStorageConfig(this.formData).then(_ => {
         this.$message({
           message: '保存成功',
           type: 'success',

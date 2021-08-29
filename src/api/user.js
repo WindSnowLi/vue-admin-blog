@@ -30,11 +30,11 @@ export function getInfo(token) {
  * @param {Object} token 验证信息
  * @param {Object} user 新的用户信息对象
  */
-export function setInfor(token, user) {
+export function setInfo(token, user) {
   return request({
     url: '/user/setInfo',
     method: 'post',
-    data: { token: token, user: user }
+    data: { token: token, content: user }
   })
 }
 
@@ -82,7 +82,10 @@ export function setAvatar(token, avatar) {
   return request({
     url: '/user/setAvatar',
     method: 'post',
-    data: { token, avatar }
+    data: {
+      token,
+      content: avatar
+    }
   })
 }
 

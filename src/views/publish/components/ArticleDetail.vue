@@ -20,7 +20,7 @@
 
             <div class="postInfo-container">
               <el-row>
-                <el-col :span="8">
+                <el-col v-if="uploadStatus" :span="8">
                   <el-form-item style="margin-bottom: 40px;" label-width="70px" label="封面:">
                     <el-upload
                       class="image-uploader"
@@ -90,9 +90,10 @@
 import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import MarkdownEditor from '@/components/MarkdownEditor'
-import { createArticle, fetchArticle, getLabels, updateArticle } from '@/api/article'
+import { createArticle, fetchArticle, updateArticle } from '@/api/article'
 import { getToken } from '@/utils/auth'
 import { getUploadArticleCoverImageUrl } from '@/api/file'
+import { getLabels } from '@/api/article-label'
 
 const defaultForm = {
   status: 'DRAFT',
@@ -138,7 +139,8 @@ export default {
         // url获取时间
         urlTime: undefined
       },
-      edit: false
+      edit: false,
+      uploadStatus: true
     }
   },
   computed: {
@@ -236,7 +238,7 @@ export default {
         data.article.articleType = 'default'
       }
       if (this.edit) {
-        updateArticle(data.token, data.article).then(_ => {
+        updateArticle(data.article).then(_ => {
           this.$notify({
             title: '成功',
             message: '文章编辑成功',
@@ -281,9 +283,19 @@ export default {
       if (!this.uploadImage.ini) {
         this.uploadImage.urlTime = new Date()
         getUploadArticleCoverImageUrl(getToken()).then(response => {
-          _self.uploadImage.host = response.data.host
-          _self.uploadImage.params = response.data.urlParams
-          _self.uploadImage.GetUrl = response.data.GetUrl
+          this.uploadStatus = response.data.status
+          if (response.data.status) {
+            _self.uploadImage.host = response.data.host
+            _self.uploadImage.params = response.data.urlParams
+            _self.uploadImage.GetUrl = response.data.GetUrl
+          } else {
+            this.$notify({
+              title: '文件上传不可用',
+              message: '文件上传不可用',
+              type: 'warning',
+              duration: 2000
+            })
+          }
         })
         this.uploadImage.ini = !this.uploadImage.ini
       }

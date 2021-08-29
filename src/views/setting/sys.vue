@@ -4,39 +4,60 @@
       系统设置
     </aside>
     <div class="editor-container">
-      <vue-form
-        v-model="formData"
-        :schema="schema"
-        @on-submit="handlerSubmit"
-        @on-cancel="handleCancel"
-      />
+      <el-row :gutter="32">
+        <el-col :xs="24" :sm="24" :lg="8">
+          <vue-form
+            v-model="sys.data"
+            :schema="sys.schema"
+            @on-submit="handlerSysSubmit"
+            @on-cancel="handleSysCancel"
+          />
+        </el-col>
+        <el-col :xs="24" :sm="24" :lg="8">
+          <vue-form
+            v-model="gitee.data"
+            :schema="gitee.schema"
+          />
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
 
 <script>
-import { getToken } from '@/utils/auth'
-import { getSysConfig, setSysConfig } from '@/api/sys'
+import { getGiteeConfig, getSysConfig, setSysConfig } from '@/api/sys'
 
 export default {
   name: 'SettingSys',
   data() {
     return {
-      formData: {},
-      schema: {},
-      config: {}
+      sys: {
+        data: {},
+        schema: {},
+        config: {}
+      },
+      gitee: {
+        data: {},
+        schema: {},
+        config: {}
+      }
     }
   },
   created() {
-    getSysConfig(getToken()).then(response => {
-      this.config = response.data
-      this.schema = response.data.template
-      this.formData = response.data.sys
+    getSysConfig().then(response => {
+      this.sys.config = response.data
+      this.sys.schema = response.data.template
+      this.sys.data = response.data.sys
+    })
+    getGiteeConfig().then(response => {
+      this.gitee.config = response.data
+      this.gitee.schema = response.data.template
+      this.gitee.data = response.data.client
     })
   },
   methods: {
-    handlerSubmit() {
-      setSysConfig(getToken(), this.formData).then(_ => {
+    handlerSysSubmit() {
+      setSysConfig(this.sys.data).then(_ => {
         this.$message({
           message: '保存成功',
           type: 'success',
@@ -45,8 +66,8 @@ export default {
         })
       })
     },
-    handleCancel() {
-      this.formData = this.config.sys
+    handleSysCancel() {
+      this.sys.data = this.sys.config.sys
     }
   }
 }

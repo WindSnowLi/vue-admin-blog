@@ -42,14 +42,6 @@ export function getArticleCreateLog(token) {
   })
 }
 
-// 文章可选标签
-export function getLabels() {
-  return request({
-    url: '/article/labels',
-    method: 'post'
-  })
-}
-
 // 创建文章
 export function createArticle(token, article) {
   return request({
@@ -68,7 +60,7 @@ export function updateArticle(article) {
     url: '/article/updateArticle',
     method: 'post',
     data: {
-      article
+      content: article
     }
   })
 }

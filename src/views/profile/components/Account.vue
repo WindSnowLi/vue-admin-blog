@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { setInfor } from '@/api/user'
+import { setInfo } from '@/api/user'
 import { getToken } from '@/utils/auth'
 export default {
   props: {
@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     submit() {
-      setInfor(getToken(), this.user).then(response => {
+      setInfo(getToken(), this.user).then(response => {
         this.$message({
           message: '信息保存成功',
           type: 'success',

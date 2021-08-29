@@ -49,6 +49,9 @@ export function deleteObject(token, objectName) {
   return request({
     url: '/file/deleteObject',
     method: 'post',
-    data: { token, objectName }
+    data: {
+      token,
+      content: objectName
+    }
   })
 }

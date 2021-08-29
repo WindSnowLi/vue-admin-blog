@@ -53,68 +53,104 @@ module.exports = [
                 type: 'string',
                 title: 'endpoint',
                 description: '请输入OSS节点描述',
-                default: '***'
+                default: '',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               accessKeyId: {
                 title: 'accessKeyId',
                 type: 'string',
                 description: '请OSS用户ID',
-                default: '***'
+                default: '',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               accessKeySecret: {
                 title: 'accessKeySecret',
                 type: 'string',
                 description: '请输入OSS密钥',
-                default: '***'
+                default: '',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               bucketName: {
                 title: 'bucketName',
                 type: 'string',
                 description: '请输入bucket名字',
-                default: '***'
+                default: '',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               rootPath: {
                 title: '项目存储根路径',
                 type: 'string',
                 description: '请输入项目存储根路径',
-                default: 'Blog/'
+                default: 'Blog/',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               articleCoverImagePath: {
                 title: 'articleCoverImagePath',
                 type: 'string',
                 description: '请输入文章封面目录',
-                default: 'Blog/articleCoverImage'
+                default: 'Blog/articleCoverImage',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               articleImagePath: {
                 title: '内容图片路径',
                 type: 'string',
                 description: '请输入文章内容图片路径',
-                default: 'Blog/articleImagePath'
+                default: 'Blog/articleImagePath',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               avatarImagePath: {
                 title: 'avatarImagePath',
                 type: 'string',
                 description: '请输入用户头像路径',
-                default: 'Blog/avatarImagePath'
+                default: 'Blog/avatarImagePath',
+                'ui:options': {
+                  "width": '30%'
+                }
               },
               callbackUrl: {
                 title: 'callbackUrl',
                 type: 'string',
                 description: '请输入OSS上传回调路径',
-                default: 'Blog/callbackUrl'
+                default: 'Blog/callbackUrl',
+                'ui:options': {
+                  "width": '30%'
+                }
+              },
+              "status": {
+                "title": '是否开启文件上传',
+                "type": 'boolean',
+                "default": false,
+                'ui:options': {
+                  "width": '30%'
+                }
               }
             }
           },
           storage: {
-            endpoint: '***.com',
-            accessKeyId: '***',
-            accessKeySecret: '***',
-            bucketName: '***',
+            endpoint: '',
+            accessKeyId: '',
+            accessKeySecret: '',
+            bucketName: '',
             rootPath: 'Blog',
             articleCoverImagePath: 'Blog/image/articleCoverImage',
             articleImagePath: 'Blog/image/articleImage',
             avatarImagePath: 'Blog/image/avatar',
-            callbackUrl: '***.com/api/file/callback'
+            callbackUrl: '***.com/api/file/callback',
+            status: false
           }
         }
       }
@@ -172,6 +208,62 @@ module.exports = [
   // 设置系统配置
   {
     url: '/sys/setSysConfig',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'OK'
+      }
+    }
+  },
+  // 获取Gitee登录配置，包含表单描述信息
+  {
+    url: '/sys/getGiteeConfig',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: {
+          "template": {
+            "title": "Gitee登录密钥",
+            "type": "object",
+            "required": [
+              "client_id",
+              "client_secret"
+            ],
+            "properties": {
+              "status": {
+                "title": '是否开启Gitee登录',
+                "type": 'boolean',
+                "default": false,
+                'ui:options': {
+                  "width": '33.333%'
+                }
+              },
+              "client_id": {
+                "type": "string",
+                "title": "Client Id",
+                "description": "程序ID"
+              },
+              "client_secret": {
+                "title": "client_secret",
+                "type": "string",
+                "description": "程序密钥"
+              }
+            }
+          },
+          "client": {
+            "client_id": "*************",
+            "client_secret": "*************",
+            "status": false
+          }
+        }
+      }
+    }
+  },
+  // 设置Gitee登录配置
+  {
+    url: '/sys/setGiteeConfig',
     type: 'post',
     response: _ => {
       return {

@@ -1,22 +1,26 @@
 <template>
   <div class="app-container">
-    <el-form ref="form" :label-position="labelPosition" :model="form" label-width="80px" center="true">
-      <el-form-item label="标签标题">
-        <el-input v-model="form.main_title" placeholder="浏览器标签页主标题" />
-      </el-form-item>
-      <el-form-item label="顶栏标题">
-        <el-input v-model="form.topbar_title" placeholder="页面顶部栏标题" />
-      </el-form-item>
-      <el-form-item label="页脚HTML">
-        <el-input v-model="form.footer" type="textarea" placeholder="页脚html代码" />
-      </el-form-item>
-      <el-form-item label="轮播背景">
-        <el-input v-model="form.background_list" type="textarea" placeholder="一行一张url链接" />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" round @click="onSubmit">保存</el-button>
-      </el-form-item>
-    </el-form>
+    <el-row :gutter="32">
+      <el-col :xs="24" :sm="24" :lg="8">
+        <el-form ref="form" :label-position="labelPosition" :model="form" label-width="80px" center="true">
+          <el-form-item label="标签标题">
+            <el-input v-model="form.main_title" placeholder="浏览器标签页主标题" />
+          </el-form-item>
+          <el-form-item label="顶栏标题">
+            <el-input v-model="form.topbar_title" placeholder="页面顶部栏标题" />
+          </el-form-item>
+          <el-form-item label="页脚HTML">
+            <el-input v-model="form.footer" type="textarea" placeholder="页脚html代码" />
+          </el-form-item>
+          <el-form-item label="轮播背景">
+            <el-input v-model="form.background_list" type="textarea" placeholder="一行一张url链接" />
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" round @click="onSubmit">保存</el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
