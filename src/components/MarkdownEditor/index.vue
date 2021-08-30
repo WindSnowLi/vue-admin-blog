@@ -41,6 +41,15 @@ export default {
     // 添加图片
     $imgAdd(pos, $file) {
       getUploadArticleImageUrl(getToken()).then(response => {
+        if (response.data.status) {
+          this.$notify({
+            title: '文件上传不可用',
+            message: '文件上传不可用',
+            type: 'warning',
+            duration: 2000
+          })
+          return
+        }
         const fileData = new FormData()
         Object.keys(response.data.urlParams).forEach(k => {
           fileData.append(k, response.data.urlParams[k])

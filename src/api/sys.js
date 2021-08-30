@@ -63,10 +63,11 @@ export function getGiteeConfig() {
 /**
  * 设置Gitee登录配置
  */
-export function setGiteeConfig() {
+export function setGiteeConfig(config) {
   return request({
     url: '/sys/setGiteeConfig',
-    method: 'post'
+    method: 'post',
+    data: config
   })
 }
 
@@ -93,5 +94,28 @@ export function getUiConfig(id) {
     url: '/sys/getUiConfig',
     method: 'post',
     data: { id }
+  })
+}
+
+/**
+ * 获取杂项设置,含格式描述
+ */
+export function getSundry() {
+  return request({
+    url: '/sys/getSundry',
+    method: 'post'
+  })
+}
+
+/**
+ * 设置杂项
+ */
+export function setSundry(config) {
+  return request({
+    url: '/sys/setSundry',
+    method: 'post',
+    data: {
+      content: config
+    }
   })
 }

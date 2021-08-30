@@ -228,8 +228,8 @@ module.exports = [
             "title": "Gitee登录密钥",
             "type": "object",
             "required": [
-              "client_id",
-              "client_secret"
+              "clientId",
+              "clientSecret"
             ],
             "properties": {
               "status": {
@@ -240,12 +240,12 @@ module.exports = [
                   "width": '33.333%'
                 }
               },
-              "client_id": {
+              "clientId": {
                 "type": "string",
                 "title": "Client Id",
                 "description": "程序ID"
               },
-              "client_secret": {
+              "clientSecret": {
                 "title": "client_secret",
                 "type": "string",
                 "description": "程序密钥"
@@ -253,8 +253,8 @@ module.exports = [
             }
           },
           "client": {
-            "client_id": "*************",
-            "client_secret": "*************",
+            "clientId": "*************",
+            "clientSecret": "*************",
             "status": false
           }
         }
@@ -264,6 +264,55 @@ module.exports = [
   // 设置Gitee登录配置
   {
     url: '/sys/setGiteeConfig',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: 'OK'
+      }
+    }
+  },
+  // 获取杂项设置,含格式描述
+  {
+    url: '/sys/getSundry',
+    type: 'post',
+    response: _ => {
+      return {
+        code: 20000,
+        data: {
+          template: {
+            title: '杂项配置',
+            type: 'object',
+            properties: {
+              articleComment: {
+                title: '文章是否开启评论',
+                "type": 'boolean',
+                "default": false,
+                'ui:options': {
+                  "width": '33.333%'
+                }
+              },
+              aboutComment: {
+                title: '关于信息是否开启评论',
+                "type": 'boolean',
+                "default": false,
+                'ui:options': {
+                  "width": '33.333%'
+                }
+              }
+            }
+          },
+          sundry: {
+            articleComment: false,
+            aboutComment: false
+          }
+        }
+      }
+    }
+  },
+  // 设置杂项
+  {
+    url: '/sys/setSundry',
     type: 'post',
     response: _ => {
       return {
