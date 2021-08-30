@@ -17,6 +17,16 @@
           <vue-form
             v-model="gitee.data"
             :schema="gitee.schema"
+            @on-submit="handlerGiteeSubmit"
+            @on-cancel="handleGiteeCancel"
+          />
+        </el-col>
+        <el-col :xs="24" :sm="24" :lg="8">
+          <vue-form
+            v-model="sundry.data"
+            :schema="sundry.schema"
+            @on-submit="handlerSundrySubmit"
+            @on-cancel="handleSundryCancel"
           />
         </el-col>
       </el-row>
@@ -25,7 +35,7 @@
 </template>
 
 <script>
-import { getGiteeConfig, getSysConfig, setSysConfig } from '@/api/sys'
+import { getGiteeConfig, getSundry, getSysConfig, setGiteeConfig, setSundry, setSysConfig } from '@/api/sys'
 
 export default {
   name: 'SettingSys',
@@ -37,6 +47,11 @@ export default {
         config: {}
       },
       gitee: {
+        data: {},
+        schema: {},
+        config: {}
+      },
+      sundry: {
         data: {},
         schema: {},
         config: {}
@@ -54,6 +69,11 @@ export default {
       this.gitee.schema = response.data.template
       this.gitee.data = response.data.client
     })
+    getSundry().then(response => {
+      this.sundry.config = response.data
+      this.sundry.schema = response.data.template
+      this.sundry.data = response.data.sundry
+    })
   },
   methods: {
     handlerSysSubmit() {
@@ -68,6 +88,32 @@ export default {
     },
     handleSysCancel() {
       this.sys.data = this.sys.config.sys
+    },
+    handlerGiteeSubmit() {
+      setGiteeConfig(this.gitee.data).then(_ => {
+        this.$message({
+          message: '保存成功',
+          type: 'success',
+          showClose: true,
+          duration: 1000
+        })
+      })
+    },
+    handleGiteeCancel() {
+      this.gitee.data = this.gitee.config.sys
+    },
+    handlerSundrySubmit() {
+      setSundry(this.sundry.data).then(_ => {
+        this.$message({
+          message: '保存成功',
+          type: 'success',
+          showClose: true,
+          duration: 1000
+        })
+      })
+    },
+    handleSundryCancel() {
+      this.sundry.data = this.sundry.config.sundry
     }
   }
 }
