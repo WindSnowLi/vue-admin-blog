@@ -85,7 +85,7 @@
 
 import waves from '@/directive/waves'
 import { getFriendLinks, setFriendLinkStatus } from '@/api/link'
-import { getToken } from '@/utils/auth' // waves directive
+// waves directive
 
 export default {
   name: 'FriendLink',
@@ -124,7 +124,7 @@ export default {
       })
     },
     handleModifyStatus(row, status) {
-      setFriendLinkStatus(getToken(), row.id, status).then(_ => {
+      setFriendLinkStatus(row.id, status).then(_ => {
         row.status = status
       })
     }

@@ -90,7 +90,7 @@ export const asyncRoutes = [
       },
       {
         path: 'manage',
-        component: () => import('@/views/table/ManageArticle'),
+        component: () => import('@/views/publish/ManageArticle'),
         name: 'ManageArticle',
         meta: { title: '管理文章', icon: 'table' }
       }
@@ -180,7 +180,7 @@ export const asyncRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/table/ManageComment'),
+        component: () => import('@/views/comment/ManageComment'),
         name: 'ManageComment',
         meta: { title: '评论管理', icon: 'el-icon-s-comment', noCache: true }
       }

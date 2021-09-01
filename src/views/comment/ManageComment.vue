@@ -83,9 +83,6 @@
 <script>
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import {
-  getToken
-} from '@/utils/auth'
 import { mapGetters } from 'vuex'
 import { getCommentList, setCommentStatus } from '@/api/comment'
 
@@ -130,7 +127,7 @@ export default {
     getList() {
       this.listLoading = true
       this.listQuery.userId = this.id
-      getCommentList(getToken(), this.listQuery).then(response => {
+      getCommentList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total
 
@@ -145,7 +142,7 @@ export default {
       this.getList()
     },
     handlePass(row, index) {
-      setCommentStatus(getToken(), row.id, 'PASS').then(_ => {
+      setCommentStatus(row.id, 'PASS').then(_ => {
         this.$notify({
           title: '通过',
           message: '审核通过',
@@ -173,7 +170,7 @@ export default {
       this.handleFilter()
     },
     handleDelete(row, index) {
-      setCommentStatus(getToken(), row.id, 'DELETE').then(_ => {
+      setCommentStatus(row.id, 'DELETE').then(_ => {
         this.$notify({
           title: '成功',
           message: '删除成功',

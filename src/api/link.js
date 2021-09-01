@@ -33,15 +33,13 @@ export function applyFriendLink(friendLinks) {
 /**
  *  设置友链状态
  */
-export function setFriendLinkStatus(token, id, status) {
+export function setFriendLinkStatus(id, status) {
   return request({
     url: '/links/setFriendLinkStatus',
     method: 'post',
     data: {
-      token,
-      content: {
-        id, content: status
-      }
+      id,
+      content: status
     }
   })
 }

@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     fetchData() {
-      getCommentList(getToken(), this.listQuery).then(rsp => {
+      getCommentList(this.listQuery).then(rsp => {
         this.list = rsp.data.items
       })
     },
