@@ -14,79 +14,104 @@
           <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="主题" min-width="150px">
+      <el-table-column label="主题" min-width="100px">
         <template slot-scope="{row}">
-          <span>{{ row.title }}</span>
+          <a
+            target="_blank"
+            :href="row.link"
+          >
+            <span>{{ row.title }}</span>
+          </a>
         </template>
       </el-table-column>
-      <el-table-column label="封面" max-width="100px" align="center">
+      <el-table-column label="封面" width="auto" align="center">
         <template slot-scope="{row}">
-          <img :src="row.coverPic" alt="封面" width="100%" height="auto">
+          <img :src="row.coverPic" alt="封面" width="auto" height="100px">
         </template>
       </el-table-column>
-      <el-table-column label="邮箱" width="110px" align="center">
+      <el-table-column label="邮箱" width="200px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.email }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column label="链接url" align="center" width="95">
+      <el-table-column label="链接url" align="center" width="250px">
         <template slot-scope="{row}">
-          <span>{{ row.link }}</span>
+          <a
+            target="_blank"
+            :href="row.link"
+          >
+            <span>{{ row.link }}</span>
+          </a>
         </template>
       </el-table-column>
-      <el-table-column label="友链状态" class-name="status-col" width="100">
+      <el-table-column label="介绍" align="center" width="250px">
+        <template slot-scope="{row}">
+          <span>{{ row.describe }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="友链状态" class-name="status-col" width="100px">
         <template slot-scope="{row}">
           <el-tag :type="row.status | statusFilter">
             {{ row.status }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button
-            v-if="row.status!=='PASS'"
             size="mini"
-            type="success"
-            @click="handleModifyStatus(row,'PASS')"
+            type="primary"
+            @click="editLinkDialog = true;linkForm=row;buffForm={ ...row } "
           >
-            通过/显示
-          </el-button>
-          <el-button
-            v-if="row.status==='PASS'"
-            size="mini"
-            type="info"
-            @click="handleModifyStatus(row,'HIDE')"
-          >
-            隐藏
-          </el-button>
-          <el-button
-            v-if="row.status==='APPLY'"
-            size="mini"
-            type="warning"
-            @click="handleModifyStatus(row,'REFUSE')"
-          >
-            拒绝
-          </el-button>
-          <el-button
-            v-if="row.status!=='DELETE'"
-            size="mini"
-            type="danger"
-            @click="handleModifyStatus(row,'DELETE')"
-          >
-            删除
+            编辑
           </el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog
+      title="编辑"
+      :visible.sync="editLinkDialog"
+      width="30%"
+      center
+    >
+      <el-form ref="buffForm" :model="buffForm" :rules="rules" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="主题" prop="title">
+          <el-input v-model="buffForm.title" />
+        </el-form-item>
+        <el-form-item label="首页链接" prop="title">
+          <el-input v-model="buffForm.link" />
+        </el-form-item>
+        <el-form-item label="封面url">
+          <el-input v-model="buffForm.coverPic" />
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="buffForm.email" />
+        </el-form-item>
+        <el-form-item label="介绍">
+          <el-input v-model="buffForm.describe" type="textarea" />
+        </el-form-item>
+        <el-form-item label="链接状态" prop="status">
+          <el-radio-group v-model="buffForm.status">
+            <el-radio label="PASS">审核通过</el-radio>
+            <el-radio label="HIDE">隐藏</el-radio>
+            <el-radio label="REFUSE">拒绝</el-radio>
+            <el-radio label="DELETE">逻辑删除</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitLinkForm('buffForm')">保存</el-button>
+          <el-button @click="resetLinkForm()">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
 
 import waves from '@/directive/waves'
-import { getFriendLinks, setFriendLinkStatus } from '@/api/link'
-// waves directive
+import { getFriendLinks, setFriendLink } from '@/api/link'
 
+// waves directive
 export default {
   name: 'FriendLink',
   directives: {
@@ -107,7 +132,40 @@ export default {
     return {
       tableKey: 0,
       list: null,
-      listLoading: true
+      listLoading: true,
+      editLinkDialog: false,
+      // 存储实际那一行的数据
+      linkForm: {},
+      // 缓冲表单，主要修改的这个用的
+      buffForm: {
+        // 友链ID
+        id: undefined,
+        // 友链URL
+        link: '',
+        // 友链主题
+        title: '',
+        // 友链介绍
+        describe: '',
+        // 创建时间
+        createTime: '',
+        // 修改时间
+        updateTime: '',
+        // 邮箱
+        email: '',
+        // 当前友链状态
+        status: '',
+        // 友链封面URL
+        coverPic: ''
+      },
+      rules: {
+        title: [
+          { required: true, message: '存在必填项为空', trigger: 'blur' },
+          { min: 1, max: 30, message: '长度在 1 到 30 个字符', trigger: 'blur' }
+        ],
+        status: [
+          { required: true, message: '存在必填项为空', trigger: 'change' }
+        ]
+      }
     }
   },
   created() {
@@ -123,10 +181,31 @@ export default {
         }, 1.5 * 1000)
       })
     },
-    handleModifyStatus(row, status) {
-      setFriendLinkStatus(row.id, status).then(_ => {
-        row.status = status
+    submitLinkForm(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          setFriendLink(this.buffForm).then(_ => {
+            this.linkForm = { ...this.buffForm }
+            this.$notify({
+              title: '成功',
+              message: '保存成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        } else {
+          this.$notify({
+            title: '失败',
+            message: '保存失败',
+            type: 'danger',
+            duration: 2000
+          })
+          return false
+        }
       })
+    },
+    resetLinkForm() {
+      this.buffForm = { ...this.linkForm }
     }
   }
 }
