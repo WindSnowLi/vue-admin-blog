@@ -145,7 +145,7 @@ export const asyncRoutes = [
       {
         path: 'about',
         component: () => import('@/views/profile/about'),
-        name: 'Profile',
+        name: 'About',
         meta: { title: '关于信息', icon: 'eye-open', noCache: true }
       }
     ]

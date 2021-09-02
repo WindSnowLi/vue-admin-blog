@@ -5,7 +5,7 @@ for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
     content: '@guid()',
-    createTime: +Mock.Random.date('T'),
+    time: +Mock.Random.date('T'),
     fromUser: {
       id: '@increment',
       nickname: '@name()'

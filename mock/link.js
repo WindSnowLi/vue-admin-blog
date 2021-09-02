@@ -5,10 +5,10 @@ const count = 20
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
-    link: 'url',
-    title: '@title(5, 20)',
-    describe: '@title(5, 50)',
-    email: '@title(5, 50)',
+    link: '@url',
+    title: '@csentence',
+    describe: '@csentence',
+    email: '@email',
     'status|1': ['PASS', 'APPLY', 'REFUSE', 'HIDE', 'DELETE'],
     coverPic: 'https://wpimg.wallstcn.com/e4558086-631c-425c-9430-56ffb46e70b3',
     createTime: +Mock.Random.date('T'),
@@ -41,7 +41,7 @@ module.exports = [
   },
   // 设置友链状态
   {
-    url: '/links/setFriendLinkStatus',
+    url: '/links/setFriendLink',
     type: 'post',
     response: _ => {
       return {
