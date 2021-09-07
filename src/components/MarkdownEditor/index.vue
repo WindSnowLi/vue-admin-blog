@@ -41,7 +41,7 @@ export default {
     // 添加图片
     $imgAdd(pos, $file) {
       getUploadArticleImageUrl(getToken()).then(response => {
-        if (response.data.status) {
+        if (!response.data.status) {
           this.$notify({
             title: '文件上传不可用',
             message: '文件上传不可用',
