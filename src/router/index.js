@@ -60,9 +60,9 @@ export const constantRoutes = [
 
 export const asyncRoutes = [
   {
-    path: '/publish',
+    path: '/article',
     component: Layout,
-    redirect: '/publish/list',
+    redirect: '/article/list',
     name: '内容管理',
     meta: {
       title: '内容管理',
@@ -71,28 +71,34 @@ export const asyncRoutes = [
     children: [
       {
         path: 'create',
-        component: () => import('@/views/publish/create'),
+        component: () => import('@/views/article/create'),
         name: 'CreateArticle',
         meta: { title: '创建文章', icon: 'edit' }
       },
       {
         path: 'edit/:id(\\d+)',
-        component: () => import('@/views/publish/edit'),
+        component: () => import('@/views/article/edit'),
         name: 'EditArticle',
-        meta: { title: '编辑文章', noCache: true, activeMenu: '/publish/list' },
+        meta: { title: '编辑文章', noCache: true, activeMenu: '/article/list' },
         hidden: true
       },
       {
         path: 'list',
-        component: () => import('@/views/publish/list'),
+        component: () => import('@/views/article/list'),
         name: 'ArticleList',
         meta: { title: '文章列表', icon: 'list' }
       },
       {
         path: 'manage',
-        component: () => import('@/views/publish/ManageArticle'),
+        component: () => import('@/views/article/ManageArticle'),
         name: 'ManageArticle',
         meta: { title: '管理文章', icon: 'table' }
+      },
+      {
+        path: 'label',
+        component: () => import('@/views/article/label'),
+        name: 'ArticleLabel',
+        meta: { title: '文章标签', icon: 'el-icon-collection-tag', noCache: true }
       }
     ]
   },
@@ -129,7 +135,7 @@ export const asyncRoutes = [
   {
     path: '/profile',
     component: Layout,
-    redirect: '/profile/index',
+    redirect: '/profile/base',
     name: 'profile',
     meta: {
       title: '个人中心',
@@ -137,7 +143,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'index',
+        path: 'base',
         component: () => import('@/views/profile/base'),
         name: 'Profile',
         meta: { title: '基础信息', icon: 'people', noCache: true }
@@ -153,7 +159,7 @@ export const asyncRoutes = [
   {
     path: '/links',
     component: Layout,
-    redirect: '/links/friendLinks',
+    redirect: '/links/friendLink',
     name: 'links',
     meta: {
       title: '链接管理',
@@ -161,7 +167,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'index',
+        path: 'friendLink',
         component: () => import('@/views/links/FriendLink'),
         name: 'FriendLink',
         meta: { title: '友链管理', icon: 'el-icon-lollipop', noCache: true }
@@ -179,7 +185,7 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'index',
+        path: 'verify',
         component: () => import('@/views/comment/ManageComment'),
         name: 'ManageComment',
         meta: { title: '评论管理', icon: 'el-icon-s-comment', noCache: true }

@@ -9,7 +9,7 @@ module.exports = [
         code: 20000,
         message: '请求成功',
         data: {
-          'visits': {
+          'pv': {
             'title': '浏览量',
             'total': 1502,
             'x': [
@@ -100,7 +100,7 @@ module.exports = [
         code: 20000,
         message: '请求成功',
         data: {
-          'visits': {
+          'pv': {
             'data': [
               {
                 'name': 'Python',

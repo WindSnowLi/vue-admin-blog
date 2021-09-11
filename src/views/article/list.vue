@@ -9,7 +9,7 @@
 
       <el-table-column min-width="300px" label="标题">
         <template slot-scope="{row}">
-          <router-link :to="'/publish/edit/'+row.article.id" class="link-type">
+          <router-link :to="'/article/edit/'+row.article.id" class="link-type">
             <span>{{ row.article.title }}</span>
           </router-link>
         </template>
@@ -17,7 +17,7 @@
 
       <el-table-column min-width="300px" label="摘要">
         <template slot-scope="{row}">
-          <router-link :to="'/publish/edit/'+row.article.id" class="link-type">
+          <router-link :to="'/article/edit/'+row.article.id" class="link-type">
             <span>{{ row.article.title }}</span>
           </router-link>
         </template>
@@ -45,7 +45,7 @@
 
       <el-table-column align="center" label="操作" width="120">
         <template slot-scope="scope">
-          <router-link :to="'/publish/edit/'+scope.row.article.id">
+          <router-link :to="'/article/edit/'+scope.row.article.id">
             <el-button type="primary" size="small" icon="el-icon-edit">
               编辑
             </el-button>
@@ -60,7 +60,6 @@
 <script>
 import { fetchList } from '@/api/article'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'ArticleList',
@@ -84,15 +83,9 @@ export default {
         page: 1,
         limit: 20,
         sort: '-id',
-        status: 'ALL',
-        userId: 0
+        status: 'ALL'
       }
     }
-  },
-  computed: {
-    ...mapGetters([
-      'id'
-    ])
   },
   created() {
     this.getList()
@@ -100,7 +93,6 @@ export default {
   methods: {
     getList() {
       this.listLoading = true
-      this.listQuery.userId = this.id
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total

@@ -8,7 +8,7 @@
       <el-col :xs="24" :sm="24" :lg="8">
         <div class="chart-wrapper">
           <label>访问量分析</label>
-          <pie-chart :cake-chart-data="chartData.visits" />
+          <pie-chart :cake-chart-data="chartData.pv" />
         </div>
       </el-col>
       <el-col :xs="24" :sm="24" :lg="8">
@@ -47,7 +47,7 @@ import { getToken } from '@/utils/auth'
 
 const data = {
   groupData: {
-    visits: {
+    pv: {
       total: 0,
       y: [0, 0, 0, 0, 0, 0, 0],
       x: ['6', '5', '4', '3', '2', '1', '0'],
@@ -77,7 +77,7 @@ const data = {
       data: [],
       dataName: []
     },
-    visits: {
+    pv: {
       data: [],
       dataName: []
     },
@@ -112,7 +112,7 @@ export default {
   },
   data() {
     return {
-      lineChartData: data.groupData.visits,
+      lineChartData: data.groupData.pv,
       // 图数据
       chartData: data.chartData,
       // 界首数据
@@ -124,7 +124,7 @@ export default {
     // 界首
     getPanel(getToken()).then(rsp => {
       that.groupData = rsp.data
-      that.handleSetLineChartData('visit')
+      that.handleSetLineChartData('pv')
     })
     // 图表数据
     getChart(getToken()).then(rsp => {
@@ -133,9 +133,9 @@ export default {
   },
   methods: {
     handleSetLineChartData(type) {
-      if (type === 'visit') {
+      if (type === 'pv') {
         // 访问量曲线图
-        this.lineChartData = this.groupData.visits
+        this.lineChartData = this.groupData.pv
       } else if (type === 'article') {
         // 文章创建曲线图
         this.lineChartData = this.groupData.articles
