@@ -1,6 +1,10 @@
 import request from '@/utils/request'
 
 // 所有文章列表
+/**
+ * 分页获取文章列表
+ * @param query 分页查询参数对象
+ */
 export function fetchList(query) {
   return request({
     url: '/article/getArticlesByPage',
@@ -21,13 +25,10 @@ export function fetchArticle(id) {
 }
 
 // 获取所有分类访问量
-export function getAllVisitCountByType(token) {
+export function getAllPVByType() {
   return request({
-    url: '/article/getAllVisitCountByType',
-    method: 'post',
-    data: {
-      token
-    }
+    url: '/article/getAllPVByType',
+    method: 'post'
   })
 }
 

@@ -104,7 +104,7 @@ module.exports = [
   },
   // 获取所有分类访问量
   {
-    url: '/article/getAllVisitCountByType',
+    url: '/article/getAllPVByType',
     type: 'post',
     dataType: 'json',
     response: _ => {

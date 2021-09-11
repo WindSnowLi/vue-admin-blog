@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('visit')">
+      <div class="card-panel" @click="handleSetLineChartData('pv')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
         </div>
@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             访问者
           </div>
-          <count-to :start-val="0" :end-val="groupData.visits.total" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="groupData.pv.total" :duration="2600" class="card-panel-num" />
         </div>
       </div>
     </el-col>

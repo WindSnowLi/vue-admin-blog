@@ -40,7 +40,7 @@
       </el-table-column>
       <el-table-column label="标题" min-width="150px">
         <template slot-scope="{row}">
-          <router-link :to="'/publish/edit/' + row.article.id" class="link-type">
+          <router-link :to="'/article/edit/' + row.article.id" class="link-type">
             <span>{{ row.article.title }}</span>
           </router-link>
         </template>
@@ -103,7 +103,6 @@ import {
 } from '@/api/article'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'ManageArticle',
@@ -123,8 +122,7 @@ export default {
         page: 1,
         limit: 20,
         sort: '-id',
-        status: 'ALL',
-        userId: 0
+        status: 'ALL'
       },
       sortOptions: [{
         label: 'ID升序',
@@ -135,18 +133,12 @@ export default {
       }]
     }
   },
-  computed: {
-    ...mapGetters([
-      'id'
-    ])
-  },
   created() {
     this.getList()
   },
   methods: {
     getList() {
       this.listLoading = true
-      this.listQuery.userId = this.id
       fetchList(this.listQuery).then(response => {
         this.list = response.data.items
         this.total = response.data.total
@@ -172,7 +164,7 @@ export default {
     },
     handleEdit(row) {
       this.$router.push({
-        path: '/publish/edit/' + row.article.id || '/'
+        path: '/article/edit/' + row.article.id || '/'
       })
     },
     sortChange(data) {
