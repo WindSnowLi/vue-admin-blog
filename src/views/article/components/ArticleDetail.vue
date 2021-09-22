@@ -1,7 +1,8 @@
 <template>
   <div class="createPost-container">
     <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
-      <sticky :z-index="10" :class-name="'sub-navbar '+postForm.status">
+      <sticky :z-index="10" :class-name="'sub-navbar '+postForm.status.toLowerCase()">
+        <CommentDropdown v-model="postForm.commentDisabled" />
         <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
           发布
         </el-button>
@@ -94,6 +95,7 @@ import { createArticle, fetchArticle, updateArticle } from '@/api/article'
 import { getToken } from '@/utils/auth'
 import { getUploadArticleCoverImageUrl } from '@/api/file'
 import { getLabels } from '@/api/article-label'
+import { CommentDropdown } from '@/views/article/components/Dropdown'
 
 const defaultForm = {
   status: 'DRAFT',
@@ -103,7 +105,9 @@ const defaultForm = {
   coverPic: '',
   id: 0,
   labels: [], // 标签列表
-  articleType: '' // 分类
+  articleType: '', // 分类
+  commentDisabled: false // 是否开启评论
+
 }
 
 export default {
@@ -111,6 +115,7 @@ export default {
   components: {
     MDinput,
     Sticky,
+    CommentDropdown,
     MarkdownEditor
   },
   props: {
