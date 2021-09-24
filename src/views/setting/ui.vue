@@ -9,7 +9,10 @@
           <el-form-item label="顶栏标题">
             <el-input v-model="form.topbar_title" placeholder="页面顶部栏标题" />
           </el-form-item>
-          <el-form-item label="页脚HTML">
+          <el-form-item label="全局引入">
+            <el-input v-model="form.include" type="textarea" placeholder="全局引入文件" />
+          </el-form-item>
+          <el-form-item label="首页页脚HTML">
             <el-input v-model="form.footer" type="textarea" placeholder="页脚html代码" />
           </el-form-item>
           <el-form-item label="轮播背景">
@@ -36,7 +39,8 @@ export default {
         main_title: '',
         topbar_title: '',
         footer: '',
-        background_list: ''
+        background_list: '',
+        include: ''
       }
     }
   },
@@ -59,7 +63,8 @@ export default {
         main_title: this.form.main_title,
         topbar_title: this.form.topbar_title,
         footer: this.form.footer,
-        background_list: this.form.background_list
+        background_list: this.form.background_list,
+        include: this.form.include
       }
       setUiConfig(getToken(), ui).then(_ => {
         this.$notify({
