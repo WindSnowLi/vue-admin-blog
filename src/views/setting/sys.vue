@@ -21,21 +21,13 @@
             @on-cancel="handleGiteeCancel"
           />
         </el-col>
-        <el-col :xs="24" :sm="24" :lg="8">
-          <vue-form
-            v-model="sundry.data"
-            :schema="sundry.schema"
-            @on-submit="handlerSundrySubmit"
-            @on-cancel="handleSundryCancel"
-          />
-        </el-col>
       </el-row>
     </div>
   </div>
 </template>
 
 <script>
-import { getGiteeConfig, getSundry, getSysConfig, setGiteeConfig, setSundry, setSysConfig } from '@/api/sys'
+import { getGiteeConfig, getFixedConfig, setGiteeConfig, setFixedConfig } from '@/api/sys'
 
 export default {
   name: 'SettingSys',
@@ -50,16 +42,11 @@ export default {
         data: {},
         schema: {},
         config: {}
-      },
-      sundry: {
-        data: {},
-        schema: {},
-        config: {}
       }
     }
   },
   created() {
-    getSysConfig().then(response => {
+    getFixedConfig().then(response => {
       this.sys.config = response.data
       this.sys.schema = response.data.template
       this.sys.data = response.data.sys
@@ -69,15 +56,10 @@ export default {
       this.gitee.schema = response.data.template
       this.gitee.data = response.data.client
     })
-    getSundry().then(response => {
-      this.sundry.config = response.data
-      this.sundry.schema = response.data.template
-      this.sundry.data = response.data.sundry
-    })
   },
   methods: {
     handlerSysSubmit() {
-      setSysConfig(this.sys.data).then(_ => {
+      setFixedConfig(this.sys.data).then(_ => {
         this.$message({
           message: '保存成功',
           type: 'success',
@@ -101,19 +83,6 @@ export default {
     },
     handleGiteeCancel() {
       this.gitee.data = this.gitee.config.sys
-    },
-    handlerSundrySubmit() {
-      setSundry(this.sundry.data).then(_ => {
-        this.$message({
-          message: '保存成功',
-          type: 'success',
-          showClose: true,
-          duration: 1000
-        })
-      })
-    },
-    handleSundryCancel() {
-      this.sundry.data = this.sundry.config.sundry
     }
   }
 }

@@ -1,22 +1,6 @@
 import request from '@/utils/request'
 
 /**
- * 设置UI
- * @param {String} token 验证信息
- * @param {Object} data UI数据
- */
-export function setUiConfig(token, data) {
-  return request({
-    url: '/sys/setUiConfig',
-    method: 'post',
-    data: {
-      token: token,
-      content: data
-    }
-  })
-}
-
-/**
  * 获取系统存储配置
  */
 export function getStorageConfig() {
@@ -37,16 +21,6 @@ export function setStorageConfig(storage) {
     data: {
       content: storage
     }
-  })
-}
-
-/**
- * 获取系统存储配置，包含表单描述信息
- */
-export function getSysConfig() {
-  return request({
-    url: '/sys/getSysConfig',
-    method: 'post'
   })
 }
 
@@ -72,12 +46,22 @@ export function setGiteeConfig(config) {
 }
 
 /**
+ * 获取系统基础配置，包含表单描述信息
+ */
+export function getFixedConfig() {
+  return request({
+    url: '/sys/getFixedConfig',
+    method: 'post'
+  })
+}
+
+/**
  * 上传系统配置
  * @param {Object} config 系统设置信息
  */
-export function setSysConfig(config) {
+export function setFixedConfig(config) {
   return request({
-    url: '/sys/setSysConfig',
+    url: '/sys/setFixedConfig',
     method: 'post',
     data: {
       content: config
@@ -98,24 +82,17 @@ export function getUiConfig(id) {
 }
 
 /**
- * 获取杂项设置,含格式描述
+ * 设置UI
+ * @param {String} token 验证信息
+ * @param {Object} data UI数据
  */
-export function getSundry() {
+export function setUiConfig(token, data) {
   return request({
-    url: '/sys/getSundry',
-    method: 'post'
-  })
-}
-
-/**
- * 设置杂项
- */
-export function setSundry(config) {
-  return request({
-    url: '/sys/setSundry',
+    url: '/sys/setUiConfig',
     method: 'post',
     data: {
-      content: config
+      token: token,
+      content: data
     }
   })
 }

@@ -55,7 +55,7 @@ module.exports = [
                 description: '请输入OSS节点描述',
                 default: '',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               accessKeyId: {
@@ -64,7 +64,7 @@ module.exports = [
                 description: '请OSS用户ID',
                 default: '',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               accessKeySecret: {
@@ -73,7 +73,7 @@ module.exports = [
                 description: '请输入OSS密钥',
                 default: '',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               bucketName: {
@@ -82,7 +82,7 @@ module.exports = [
                 description: '请输入bucket名字',
                 default: '',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               rootPath: {
@@ -91,7 +91,7 @@ module.exports = [
                 description: '请输入项目存储根路径',
                 default: 'Blog/',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               articleCoverImagePath: {
@@ -100,7 +100,7 @@ module.exports = [
                 description: '请输入文章封面目录',
                 default: 'Blog/articleCoverImage',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               articleImagePath: {
@@ -109,7 +109,7 @@ module.exports = [
                 description: '请输入文章内容图片路径',
                 default: 'Blog/articleImagePath',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               avatarImagePath: {
@@ -118,7 +118,7 @@ module.exports = [
                 description: '请输入用户头像路径',
                 default: 'Blog/avatarImagePath',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
               callbackUrl: {
@@ -127,15 +127,15 @@ module.exports = [
                 description: '请输入OSS上传回调路径',
                 default: 'Blog/callbackUrl',
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               },
-              "status": {
-                "title": '是否开启文件上传',
-                "type": 'boolean',
-                "default": false,
+              'status': {
+                'title': '是否开启文件上传',
+                'type': 'boolean',
+                'default': false,
                 'ui:options': {
-                  "width": '30%'
+                  'width': '30%'
                 }
               }
             }
@@ -169,7 +169,7 @@ module.exports = [
   },
   // 获取系统配置信息，包含表单描述信息
   {
-    url: '/sys/getSysConfig',
+    url: '/sys/getFixedConfig',
     type: 'post',
     response: _ => {
       return {
@@ -193,13 +193,31 @@ module.exports = [
                 type: 'string',
                 title: '后台url根链接',
                 description: '后台url根链接'
+              },
+              articleComment: {
+                default: false,
+                'ui:options': {
+                  width: '33.333%'
+                },
+                title: '文章是否开启评论',
+                type: 'boolean'
+              },
+              aboutComment: {
+                default: false,
+                'ui:options': {
+                  width: '33.333%'
+                },
+                title: '关于信息是否开启评论',
+                type: 'boolean'
               }
             }
           },
           sys: {
             filing_icp: 'ICP备案号',
             filing_security: '公网备案',
-            admin_url: 'http://test.com'
+            admin_url: 'http://test.com',
+            articleComment: true,
+            aboutComment: true
           }
         }
       }
@@ -207,7 +225,7 @@ module.exports = [
   },
   // 设置系统配置
   {
-    url: '/sys/setSysConfig',
+    url: '/sys/setBaseSysConfig',
     type: 'post',
     response: _ => {
       return {
@@ -224,38 +242,38 @@ module.exports = [
       return {
         code: 20000,
         data: {
-          "template": {
-            "title": "Gitee登录密钥",
-            "type": "object",
-            "required": [
-              "clientId",
-              "clientSecret"
+          'template': {
+            'title': 'Gitee登录密钥',
+            'type': 'object',
+            'required': [
+              'clientId',
+              'clientSecret'
             ],
-            "properties": {
-              "status": {
-                "title": '是否开启Gitee登录',
-                "type": 'boolean',
-                "default": false,
+            'properties': {
+              'status': {
+                'title': '是否开启Gitee登录',
+                'type': 'boolean',
+                'default': false,
                 'ui:options': {
-                  "width": '33.333%'
+                  'width': '33.333%'
                 }
               },
-              "clientId": {
-                "type": "string",
-                "title": "Client Id",
-                "description": "程序ID"
+              'clientId': {
+                'type': 'string',
+                'title': 'Client Id',
+                'description': '程序ID'
               },
-              "clientSecret": {
-                "title": "client_secret",
-                "type": "string",
-                "description": "程序密钥"
+              'clientSecret': {
+                'title': 'client_secret',
+                'type': 'string',
+                'description': '程序密钥'
               }
             }
           },
-          "client": {
-            "clientId": "*************",
-            "clientSecret": "*************",
-            "status": false
+          'client': {
+            'clientId': '*************',
+            'clientSecret': '*************',
+            'status': false
           }
         }
       }
@@ -264,55 +282,6 @@ module.exports = [
   // 设置Gitee登录配置
   {
     url: '/sys/setGiteeConfig',
-    type: 'post',
-    response: _ => {
-      return {
-        code: 20000,
-        data: 'OK'
-      }
-    }
-  },
-  // 获取杂项设置,含格式描述
-  {
-    url: '/sys/getSundry',
-    type: 'post',
-    response: _ => {
-      return {
-        code: 20000,
-        data: {
-          template: {
-            title: '杂项配置',
-            type: 'object',
-            properties: {
-              articleComment: {
-                title: '文章是否开启评论',
-                "type": 'boolean',
-                "default": false,
-                'ui:options': {
-                  "width": '33.333%'
-                }
-              },
-              aboutComment: {
-                title: '关于信息是否开启评论',
-                "type": 'boolean',
-                "default": false,
-                'ui:options': {
-                  "width": '33.333%'
-                }
-              }
-            }
-          },
-          sundry: {
-            articleComment: false,
-            aboutComment: false
-          }
-        }
-      }
-    }
-  },
-  // 设置杂项
-  {
-    url: '/sys/setSundry',
     type: 'post',
     response: _ => {
       return {
