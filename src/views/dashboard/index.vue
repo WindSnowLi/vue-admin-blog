@@ -38,7 +38,7 @@ import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import PieChart from './components/PieChart'
 import BarChart from './components/BarChart'
-import TransactionTable from './components/TransactionTable'
+import TransactionTable from './components/CommentTable'
 import {
   getChart,
   getPanel
