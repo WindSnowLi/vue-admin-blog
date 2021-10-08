@@ -1,15 +1,15 @@
 <template>
   <el-dropdown :hide-on-click="false" :show-timeout="100" trigger="click">
     <el-button plain>
-      Platfroms({{ platforms.length }})
+      发布类型
       <i class="el-icon-caret-bottom el-icon--right" />
     </el-button>
     <el-dropdown-menu slot="dropdown" class="no-border">
-      <el-checkbox-group v-model="platforms" style="padding: 5px 15px;">
-        <el-checkbox v-for="item in platformsOptions" :key="item.key" :label="item.key">
+      <el-radio-group v-model="publishType" style="padding: 5px 15px;">
+        <el-radio v-for="item in publishOptions" :key="item.key" :label="item.key">
           {{ item.name }}
-        </el-checkbox>
-      </el-checkbox-group>
+        </el-radio>
+      </el-radio-group>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
@@ -19,21 +19,21 @@ export default {
   props: {
     value: {
       required: true,
-      default: () => [],
-      type: Array
+      default: 'ORIGINAL',
+      type: String
     }
   },
   data() {
     return {
-      platformsOptions: [
-        { key: 'a-platform', name: 'a-platform' },
-        { key: 'b-platform', name: 'b-platform' },
-        { key: 'c-platform', name: 'c-platform' }
+      publishOptions: [
+        { key: 'ORIGINAL', name: '原创' },
+        { key: 'REPRINT', name: '转载' },
+        { key: 'TRANSLATE', name: '翻译' }
       ]
     }
   },
   computed: {
-    platforms: {
+    publishType: {
       get() {
         return this.value
       },
