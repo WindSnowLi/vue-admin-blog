@@ -20,6 +20,7 @@ for (let i = 0; i < count; i++) {
       updateTime: +Mock.Random.date('T'),
       visitsCount: '@integer(300, 5000)',
       'status|1': ['published', 'draft', 'deleted'],
+      'publishType|1': ['ORIGINAL', 'REPRINT', 'TRANSLATE'],
       articleType: {
         // label ID
         id: 2,

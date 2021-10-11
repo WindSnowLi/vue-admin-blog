@@ -73,7 +73,7 @@ export default {
       })
     },
     handlePass(row, index) {
-      setCommentStatus(getToken(), row.id, 'PASS').then(rsp => {
+      setCommentStatus(row.id, 'PASS').then(rsp => {
         this.$notify({
           title: '通过',
           message: '审核通过',
