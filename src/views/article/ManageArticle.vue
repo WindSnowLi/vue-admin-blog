@@ -53,7 +53,7 @@
 
       <el-table-column label="阅读量" align="center" width="95">
         <template slot-scope="{row}">
-          <span>{{ row.article.visitsCount }}</span>
+          <span>{{ row.article.pv }}</span>
         </template>
       </el-table-column>
       <el-table-column label="文章状态" class-name="status-col" width="100">
