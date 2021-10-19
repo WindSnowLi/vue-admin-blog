@@ -54,17 +54,30 @@
           <span>{{ row.target.title }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="评论状态" class-name="status-col" width="100">
+        <template slot-scope="{row}">
+          <el-tag :type="row.status | statusFilter">
+            {{ row.status }}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" width="180" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button
+            v-if="row.status !== 'PASS'"
             size="mini"
             type="success"
             @click="handlePass(row,$index)"
           >
-            通过
+            显示
           </el-button>
 
-          <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
+          <el-button
+            v-if="row.status !== 'DELETE'"
+            size="mini"
+            type="danger"
+            @click="handleDelete(row,$index)"
+          >
             删除
           </el-button>
         </template>
@@ -93,6 +106,16 @@ export default {
   },
   directives: {
     waves
+  },
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        PASS: 'success',
+        VERIFY: 'info',
+        DELETE: 'danger'
+      }
+      return statusMap[status]
+    }
   },
   data() {
     return {

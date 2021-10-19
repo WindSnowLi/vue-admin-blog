@@ -58,7 +58,7 @@
       </el-table-column>
       <el-table-column label="文章状态" class-name="status-col" width="100">
         <template slot-scope="{row}">
-          <el-tag :type="row.article.status">
+          <el-tag :type="row.article.status | statusFilter">
             {{ row.article.status }}
           </el-tag>
         </template>
@@ -111,6 +111,16 @@ export default {
   },
   directives: {
     waves
+  },
+  filters: {
+    statusFilter(status) {
+      const statusMap = {
+        PUBLISHED: 'success',
+        DRAFT: 'info',
+        DELETED: 'danger'
+      }
+      return statusMap[status]
+    }
   },
   data() {
     return {
