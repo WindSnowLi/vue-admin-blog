@@ -104,7 +104,7 @@ export default {
         page: 1,
         limit: 20,
         sort: '-id',
-        status: 'VERIFY'
+        status: 'ALL'
       },
       sortOptions: [{
         label: 'ID升序',
