@@ -265,7 +265,7 @@ export default {
             duration: 2000
           })
           this.edit = true
-          this.postForm.id = response.data.aticleId
+          this.postForm.id = response.data.articleId
         }).catch(err => {
           console.log(err)
         })

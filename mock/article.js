@@ -87,7 +87,7 @@ module.exports = [
       return {
         code: 20000,
         data: {
-          aticleId: List[0].id
+          articleId: List[0].id
         }
       }
     }
